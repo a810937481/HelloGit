@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book_task001.BBSMapper">
+    <resultMap id="resultListForum" type="cn.domain.Forum">
+        <id column="forum_id" property="forum_id"/>
+        <result column="name" property="name"/>
+    </resultMap>
+    <insert id="insertForum" parameterType="cn.domain.Forum">
+        insert into t_forum(name)
+        values (#{name})
+    </insert>
+    <select id="getAllForums" resultMap="resultListForum">
+        select * from t_forum
+        <where>
+        <if test="forum_id == null">
+            forum_id = 1
+        </if>
+        <if test="name == null">
+            or forum_id = 2
+        </if>
+        </where>
+    </select>
+    <insert id="batchInsert" parameterType="java.util.List">
+        insert into t_forum(name) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.name})
+        </foreach>
+    </insert>
+    <!--post-->
+    <resultMap id="resultListPost" type="cn.domain.Post">
+        <id column="post_id" property="post_id"/>
+        <result column="forum_id" property="forum_id"/>
+        <result column="title" property="title"></result>
+        <result column="content" property="content"/>
+        <result column="thumbnail" property="thumbnail"/>
+        <result column="post_time" property="post_time"/>
+    </resultMap>
+    <insert id="insertPost" parameterType="cn.domain.Post">
+        insert into t_post(forum_id,title,content,thumbnail,post_time)
+        values(#{forum_id},#{title},#{content},#{thumbnail},#{post_time})
+    </insert>
+    <delete id="deletePost" parameterType="Integer">
+        delete from t_post where post_id=#{post_id}
+    </delete>
+    <select id="getPostById" parameterType="Integer" resultType="cn.domain.Post">
+        select * from t_post where post_id=#{post_id}
+    </select>
+    <update id="updatePost" parameterType="cn.domain.Post">
+        update t_post set
+        forum_id=#{forum_id},title=#{title},content=#{content},thumbnail=#{thumbnail},post_time=#{post_time}
+        where post_id=#{post_id}
+    </update>
+    <select id="getPostsByForum" parameterType="Integer" resultMap="resultListPost">
+        select * from t_post where forum_id=#{forum_id}
+    </select>
+</mapper>

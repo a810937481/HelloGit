@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs.dao.UserDAO">
+
+    <select id="getUserByAccount" parameterType="String" resultType="bbs.domain.User">
+        SELECT * FROM t_user WHERE account=#{account}
+    </select>
+
+    <update id="updateUser" parameterType="bbs.domain.User">
+        UPDATE t_user SET nickname=#{nickname},password=#{password},avatar=#{avatar},point=#{point}
+        where account=#{account}
+    </update>
+
+</mapper>

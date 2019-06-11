@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.task6.mapper.StudentMapper">
+    <select id="findStudentById" parameterType="Integer" resultMap="StudentWithCourse">
+        select * from t_student where id=#{id}
+    </select>
+    <resultMap id="StudentWithCourse" type="Student">
+        <id property="id" column="id"/>
+        <result property="idCard" column="idCard"/>
+        <result property="name" column="name"/>
+        <collection property="courseList" column="id" ofType="com.task6.po.Course" select="com.task6.mapper.CourseMapper.findCourseById"/>
+    </resultMap>
+</mapper>

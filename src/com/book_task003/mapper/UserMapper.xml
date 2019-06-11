@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book_task003.mapper.UserMapper">
+    <select id="findUserWithOrders" parameterType="Integer" resultMap="UserWihtOrdersResult">
+        select * from tb_user where id=#{id}
+    </select>
+    <resultMap id="UserWihtOrdersResult" type="User">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="address" column="address"/>
+        <collection property="ordersList" column="id" ofType="com.book_task003.po.Orders"
+                    select="com.book_task003.mapper.OrdersMapper.selectOrders"/>
+    </resultMap>
+</mapper>

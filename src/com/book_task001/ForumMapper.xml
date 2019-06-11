@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.dao.ForumMapper">
+    <insert id="addForum" parameterType="cn.domain.Forum">
+        insert into t_forum(name)
+        values (#{name})
+    </insert>
+    <delete id="deleteForumById" parameterType="Integer">
+        delete from t_forum where forum_id=#{id}
+    </delete>
+    <update id="updateForum" parameterType="cn.domain.Forum">
+        update t_forum set
+        name=#{name}
+        where forum_id=#{forum_id}
+    </update>
+</mapper>

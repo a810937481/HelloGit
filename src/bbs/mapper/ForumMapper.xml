@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bbs.dao.ForumDAO">
+    
+    <!--插入-->
+    <insert id="insertForum" parameterType="bbs.domain.Forum">
+        INSERT INTO t_forum(name,description,image) VALUES (#{name},#{description},#{image})
+    </insert>
+
+    <!--查询所有论坛信息-->
+    <select id="getAllForums" resultType="bbs.domain.Forum">
+        SELECT * FROM t_forum
+    </select>
+
+    <resultMap id="postInfo" type="java.util.Map">
+        <id property="post_id" column="post_id"/>
+        <id property="title" column="title"/>
+        <id property="content" column="content"/>
+        <id property="thumbnail" column="thumbnail"/>
+        <id property="post_time" column="post_time"/>
+        <id property="nickname" column="nickname"/>
+        <id property="avatar" column="avatar"/>
+    </resultMap>
+    <select id="getPosts" parameterType="Integer" resultMap="postInfo">
+        SELECT t1.post_id,t1.title,t1.content,t1.thumbnail,t1.post_time,t2.nickname,t2.avatar
+        FROM t_post t1,t_user t2
+        WHERE t1.account = t2.account
+        AND t1.forum_id = #{forum_id}
+        ORDER BY t1.post_id DESC
+    </select>
+
+</mapper>
